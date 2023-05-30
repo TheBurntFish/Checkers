@@ -9,27 +9,38 @@
 
 
 //y then x
+
+//char board[8][8]{
+//	{' ','o',' ','o',' ','o',' ','o'},
+//	{'o',' ','o',' ','o',' ','o',' '},
+//	{' ','o',' ','o',' ','o',' ','o'},
+//	{' ',' ',' ',' ',' ',' ',' ',' '},
+//	{' ',' ',' ',' ',' ',' ',' ',' '},
+//	{'O',' ','O',' ','O',' ','O',' '},
+//	{' ','O',' ','O',' ','O',' ','O'},
+//	{'O',' ','O',' ','O',' ','O',' '}
+//};
+
 char board[8][8]{
-	{' ','o',' ','o',' ','o',' ','o'},
-	{'o',' ','o',' ','o',' ','o',' '},
-	{' ','o',' ','o',' ','o',' ','o'},
+	{' ',' ',' ','o',' ','o',' ',' '},
+	{' ',' ','O',' ',' ',' ','O',' '},
+	{' ',' ',' ','O',' ',' ',' ',' '},
+	{' ',' ','O',' ','O',' ',' ',' '},
 	{' ',' ',' ',' ',' ',' ',' ',' '},
 	{' ',' ',' ',' ',' ',' ',' ',' '},
-	{'O',' ','O',' ','O',' ','O',' '},
-	{' ','O',' ','O',' ','O',' ','O'},
+	{' ',' ',' ',' ',' ',' ',' ',' '},
 	{'O',' ','O',' ','O',' ','O',' '}
 };
-
-
 SDL_Rect rect_board[8][8];
-
+SDL_Rect rect;
+SDL_Rect background;
 void draw_board(SDL_Renderer* render, int width, int height) {
 	SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
-	SDL_Rect background = { 0, 0, width, height };
+	background = { 0, 0, width, height };
 	SDL_RenderFillRect(render, &background);
 	int rect_width = width/8;
 	int rect_height = height/8;
-	SDL_RenderClear(render);
+
 	SDL_SetRenderDrawColor(render, 0, 255, 255, 255);
 
 
@@ -40,25 +51,24 @@ void draw_board(SDL_Renderer* render, int width, int height) {
 		for (int col = 0; col < 8; col++) {
 			if ((row + col) % 2 == 1) {
 
-				SDL_Rect rect = { rect_width * row, rect_height * col, rect_width, rect_height };
+				rect = { rect_width * row, rect_height * col, rect_width, rect_height };
 
 				rect_board[row][col] = rect;
 				SDL_RenderFillRect(render, &rect_board[row][col]);
 			}
 		}
 	}
-	SDL_RenderPresent(render);
 }
 
 
 auto textures = std::vector<SDL_Texture*>{};
 
 void draw_chips(SDL_Renderer* render) {
-	SDL_Surface* black_chips = IMG_Load("..\\..\\..\\..\\Downloads\\Programming projects\\CheckersB.png"); // Load the image
-	SDL_Surface* white_chips = IMG_Load("..\\..\\..\\..\\Downloads\\Programming projects\\CheckersW.png"); // Load the image
+	SDL_Surface* black_chips = IMG_Load("CheckersB.png"); // Load the image
+	SDL_Surface* white_chips = IMG_Load("CheckersW.png"); // Load the image
 
-	SDL_Surface* black_kings = IMG_Load("..\\..\\..\\..\\Downloads\\Programming projects\\CheckersBKing.png"); // Load the image
-	SDL_Surface* white_kings = IMG_Load("..\\..\\..\\..\\Downloads\\Programming projects\\CheckersWKing.png"); // Load the image
+	SDL_Surface* black_kings = IMG_Load("CheckersBKing.png"); // Load the image
+	SDL_Surface* white_kings = IMG_Load("CheckersWKing.png"); // Load the image
 	for (int row = 0; row < 8; row++) {
 		for (int col = 0; col < 8; col++) {
 			if (board[row][col] == 'o') {
@@ -67,14 +77,12 @@ void draw_chips(SDL_Renderer* render) {
 				SDL_Texture* texture = SDL_CreateTextureFromSurface(render, black_chips); // Create a texture from the image
 				SDL_RenderCopy(render, texture, NULL, &rect_board[col][row]);
 				textures.push_back(texture);
-				SDL_RenderPresent(render);
 			}
 			if (board[row][col] == 'O') {
 
 				SDL_Texture* texture = SDL_CreateTextureFromSurface(render, white_chips); // Create a texture from the image
 				SDL_RenderCopy(render, texture, NULL, &rect_board[col][row]);
 				textures.push_back(texture);
-				SDL_RenderPresent(render);
 
 			}
 			if (board[row][col] == 'k') {
@@ -82,7 +90,6 @@ void draw_chips(SDL_Renderer* render) {
 				SDL_Texture* texture = SDL_CreateTextureFromSurface(render, black_kings); // Create a texture from the image
 				SDL_RenderCopy(render, texture, NULL, &rect_board[col][row]);
 				textures.push_back(texture);
-				SDL_RenderPresent(render);
 
 			}
 			if (board[row][col] == 'K') {
@@ -90,13 +97,10 @@ void draw_chips(SDL_Renderer* render) {
 				SDL_Texture* texture = SDL_CreateTextureFromSurface(render, white_kings); // Create a texture from the image
 				SDL_RenderCopy(render, texture, NULL, &rect_board[col][row]);
 				textures.push_back(texture);
-				SDL_RenderPresent(render);
 
 			}
 		}
 	}
-
-	SDL_RenderPresent(render);
 	SDL_FreeSurface(black_chips); // Free the image surface
 	SDL_FreeSurface(white_chips); // Free the image surface
 	SDL_FreeSurface(black_kings); // Free the image surface
