@@ -70,6 +70,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\Users\tianf\source\repos\Checkers\Checkers\SDL_Image\include;C:\Users\tianf\source\repos\Checkers\Checkers\SDL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\tianf\source\repos\Checkers\Checkers\SDL_Image\lib;C:\Users\tianf\source\repos\Checkers\Checkers\SDL\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -126,6 +130,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -144,10 +149,10 @@
     <Library Include="SDL2_image.lib" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\Programming projects\CheckersB.png" />
-    <Image Include="..\..\..\..\Downloads\Programming projects\CheckersBKing.png" />
-    <Image Include="..\..\..\..\Downloads\Programming projects\CheckersW.png" />
-    <Image Include="..\..\..\..\Downloads\Programming projects\CheckersWKing.png" />
+    <Image Include="CheckersB.png" />
+    <Image Include="CheckersBKing.png" />
+    <Image Include="CheckersW.png" />
+    <Image Include="CheckersWKing.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
