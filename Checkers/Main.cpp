@@ -94,9 +94,16 @@ void highlight(int width, int height) {
 	}
 
 }
-
+void render() {
+	SDL_RenderClear(renderer);
+	draw_board(renderer, 720, 720);
+	highlight(720, 720);
+	draw_chips(renderer);
+	SDL_RenderPresent(renderer);
+}
 void nextTurn() {
 	//selected = false;
+	flagOnce = true;
 	GameState = 0;
 	has_moveable_pieces = false;
 	turn = (turn == 'B' ? 'W' : 'B');
@@ -128,25 +135,13 @@ void nextTurn() {
 	if (!has_moveable_pieces && turn == 'B') {
 		std::cout << "White Wins" << std::endl;
 	}
-	draw_board(renderer, 720, 720);
-	highlight(720, 720);
-	draw_chips(renderer);
 
 	for (int index = 0; index < availableX.size(); index++) {
 
 		//rect_board[availableX.at(index)][availableY.at(index)]
 		SDL_RenderFillRect(renderer, &rect_board[availableX.at(index)][availableY.at(index)]);
 	}
-	SDL_RenderPresent(renderer);
-	draw_chips(renderer);
-
-	for (int index = 0; index < availableX.size(); index++) {
-
-		//rect_board[availableX.at(index)][availableY.at(index)]
-		SDL_RenderFillRect(renderer, &rect_board[availableX.at(index)][availableY.at(index)]);
-	}
-	SDL_RenderPresent(renderer);
-	draw_chips(renderer);
+	render();
 }
 
 void pieceSelect() {
@@ -188,13 +183,7 @@ void pieceSelect() {
 }
 
 
-void render() {
-	SDL_RenderClear(renderer);
-	draw_board(renderer, 720, 720);
-	highlight(720, 720);
-	draw_chips(renderer);
-	SDL_RenderPresent(renderer);
-}
+
 ////////////////////////uses ram when clicking on nothing repeatedly prob creating ****
 
 int main(int argc, char* argv[]) {
@@ -284,7 +273,7 @@ int main(int argc, char* argv[]) {
 							}
 						}
 					}
-					render();
+					
 				}
 
 				break;
@@ -294,7 +283,7 @@ int main(int argc, char* argv[]) {
 					render();
 				}
 				if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON(SDL_BUTTON_LEFT)) {
-					flagOnce = true;
+
 					bool aForwardLeft = false;
 					bool aForwardRight = false;
 					bool aBackwardLeft = false;
@@ -385,12 +374,13 @@ int main(int argc, char* argv[]) {
 					if (aForwardLeft) {
 						if (x == selected_x - 2 && y == selected_y + (forward * 2)) {
 							attackForwardLeft(selected_x, selected_y, is_white, is_king);
-
+							flagOnce = true;
 
 							if (canAttack(selected_x - 2, selected_y + (forward * 2), is_white, is_king).size() > 0) {
 								std::cout << "chain" << std::endl;
 								pieceSelect();
 								GameState = 2; //Chain attack
+
 
 								//nextTurn();
 							}
@@ -406,7 +396,7 @@ int main(int argc, char* argv[]) {
 					if (aForwardRight) {
 						if (x == selected_x + 2 && y == selected_y + (forward * 2)) {
 							attackForwardRight(selected_x, selected_y, is_white, is_king);
-
+							flagOnce = true;
 
 							if (canAttack(selected_x + 2, selected_y + (forward * 2), is_white, is_king).size() > 0) {
 								std::cout << "chain" << std::endl;
@@ -429,7 +419,7 @@ int main(int argc, char* argv[]) {
 					if (aBackwardLeft) {
 						if (is_king && x == selected_x - 2 && y == selected_y - (forward * 2)) {
 							attackBackwardLeft(selected_x, selected_y, is_white, is_king);
-
+							flagOnce = true;
 
 							if (canAttack(selected_x - 2, selected_y - (forward * 2), is_white, is_king).size() > 0) {
 								std::cout << "chain" << std::endl;
@@ -451,20 +441,18 @@ int main(int argc, char* argv[]) {
 					if (aBackwardRight) {
 						if (is_king && x == selected_x + 2 && y == selected_y - (forward * 2)) {
 							attackBackwardRight(selected_x, selected_y, is_white, is_king);
-							draw_board(renderer, width, height); highlight(width, height);
+							flagOnce = true;
 
 							if (canAttack(selected_x + 2, selected_y - (forward * 2), is_white, is_king).size() > 0) {
 								std::cout << "chain" << std::endl;
 
 								pieceSelect();
 								GameState = 2; //Chain attack
-								draw_board(renderer, width, height); highlight(width, height);
-								draw_chips(renderer);
+
 								//nextTurn();
 							}
 							else {
 								nextTurn();
-								flagOnce = true;
 							}
 						}
 					}
@@ -475,6 +463,7 @@ int main(int argc, char* argv[]) {
 				checkForced(selected_y, selected_x, true);
 				if (flagOnce) {
 					flagOnce = false;
+					highlight(width, height);
 					render();
 				}
 				if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON(SDL_BUTTON_LEFT)) {
@@ -506,14 +495,13 @@ int main(int argc, char* argv[]) {
 					if (aForwardLeft) {
 						if (x == selected_x - 2 && y == selected_y + (forward * 2)) {
 							attackForwardLeft(selected_x, selected_y, is_white, is_king);
-							draw_board(renderer, width, height); highlight(width, height);
+							flagOnce = true;
 
 							if (canAttack(selected_x - 2, selected_y + (forward * 2), is_white, is_king).size() > 0) {
 								std::cout << "chain" << std::endl;
 								pieceSelect();
 								GameState = 2; //Chain attack
-								draw_board(renderer, width, height); highlight(width, height);
-								draw_chips(renderer);
+
 								//nextTurn();
 							}
 							else {
@@ -528,14 +516,13 @@ int main(int argc, char* argv[]) {
 					if (aForwardRight) {
 						if (x == selected_x + 2 && y == selected_y + (forward * 2)) {
 							attackForwardRight(selected_x, selected_y, is_white, is_king);
-							draw_board(renderer, width, height); highlight(width, height);
+							flagOnce = true;
 
 							if (canAttack(selected_x + 2, selected_y + (forward * 2), is_white, is_king).size() > 0) {
 								std::cout << "chain" << std::endl;
 								pieceSelect();
 								GameState = 2; //Chain attack
-								draw_board(renderer, width, height); highlight(width, height);
-								draw_chips(renderer);
+
 								//nextTurn();
 							}
 							else {
@@ -551,14 +538,13 @@ int main(int argc, char* argv[]) {
 					if (aBackwardLeft) {
 						if (is_king && x == selected_x - 2 && y == selected_y - (forward * 2)) {
 							attackBackwardLeft(selected_x, selected_y, is_white, is_king);
-							draw_board(renderer, width, height); highlight(width, height);
+							flagOnce = true;
 
 							if (canAttack(selected_x - 2, selected_y - (forward * 2), is_white, is_king).size() > 0) {
 								std::cout << "chain" << std::endl;
 								pieceSelect();
 								GameState = 2; //Chain attack
-								draw_board(renderer, width, height); highlight(width, height);
-								draw_chips(renderer);
+								
 								//nextTurn();
 							}
 							else {
@@ -573,14 +559,12 @@ int main(int argc, char* argv[]) {
 					if (aBackwardRight) {
 						if (is_king && x == selected_x + 2 && y == selected_y - (forward * 2)) {
 							attackForwardRight(selected_x, selected_y, is_white, is_king);
-							draw_board(renderer, width, height); highlight(width, height);
-
+							flagOnce = true;
 							if (canAttack(selected_x + 2, selected_y - (forward * 2), is_white, is_king).size() > 0) {
 								std::cout << "chain" << std::endl;
 								pieceSelect();
 								GameState = 2; //Chain attack
-								draw_board(renderer, width, height); highlight(width, height);
-								draw_chips(renderer);
+								
 								//nextTurn();
 							}
 							else {
@@ -603,7 +587,10 @@ int main(int argc, char* argv[]) {
 	for (auto texture : textures) {
 		SDL_DestroyTexture(texture);
 	}
-
+	SDL_FreeSurface(black_chips); // Free the image surface
+	SDL_FreeSurface(white_chips); // Free the image surface
+	SDL_FreeSurface(black_kings); // Free the image surface
+	SDL_FreeSurface(white_kings); // Free the image surface
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

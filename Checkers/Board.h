@@ -63,12 +63,12 @@ void draw_board(SDL_Renderer* render, int width, int height) {
 
 auto textures = std::vector<SDL_Texture*>{};
 
-void draw_chips(SDL_Renderer* render) {
-	SDL_Surface* black_chips = IMG_Load("CheckersB.png"); // Load the image
-	SDL_Surface* white_chips = IMG_Load("CheckersW.png"); // Load the image
+SDL_Surface* black_chips = IMG_Load("CheckersB.png"); // Load the image
+SDL_Surface* white_chips = IMG_Load("CheckersW.png"); // Load the image
 
-	SDL_Surface* black_kings = IMG_Load("CheckersBKing.png"); // Load the image
-	SDL_Surface* white_kings = IMG_Load("CheckersWKing.png"); // Load the image
+SDL_Surface* black_kings = IMG_Load("CheckersBKing.png"); // Load the image
+SDL_Surface* white_kings = IMG_Load("CheckersWKing.png"); // Load the image
+void draw_chips(SDL_Renderer* render) {
 	for (int row = 0; row < 8; row++) {
 		for (int col = 0; col < 8; col++) {
 			if (board[row][col] == 'o') {
@@ -101,10 +101,7 @@ void draw_chips(SDL_Renderer* render) {
 			}
 		}
 	}
-	SDL_FreeSurface(black_chips); // Free the image surface
-	SDL_FreeSurface(white_chips); // Free the image surface
-	SDL_FreeSurface(black_kings); // Free the image surface
-	SDL_FreeSurface(white_kings); // Free the image surface
+
 }
 
 
