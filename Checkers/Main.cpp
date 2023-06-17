@@ -119,6 +119,25 @@ void nextTurn() {
 	if (!has_moveable_pieces && turn == 'B') {
 		std::cout << "White Wins" << std::endl;
 	}
+	draw_board(renderer, 720, 720);
+	highlight(720, 720);
+	draw_chips(renderer);
+}
+	for (int index = 0; index < availableX.size(); index++) {
+
+		//rect_board[availableX.at(index)][availableY.at(index)]
+		SDL_RenderFillRect(renderer, &rect_board[availableX.at(index)][availableY.at(index)]);
+	}
+	SDL_RenderPresent(renderer);
+	draw_chips(renderer);
+}
+	for (int index = 0; index < availableX.size(); index++) {
+
+		//rect_board[availableX.at(index)][availableY.at(index)]
+		SDL_RenderFillRect(renderer, &rect_board[availableX.at(index)][availableY.at(index)]);
+	}
+	SDL_RenderPresent(renderer);
+	draw_chips(renderer);
 }
 
 void pieceSelect() {
@@ -445,7 +464,7 @@ int main(int argc, char* argv[]) {
 							}
 							else {
 								nextTurn();
-							}
+					flagOnce = true;
 						}
 						else {
 							//GameState = 0;
@@ -461,7 +480,7 @@ int main(int argc, char* argv[]) {
 					render();
 				}
 				if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON(SDL_BUTTON_LEFT)) {
-					flagOnce = true;
+					highlight(width, height);
 					bool aForwardLeft = false;
 					bool aForwardRight = false;
 					bool aBackwardLeft = false;
