@@ -10,27 +10,29 @@
 
 //y then x
 
+char board[8][8]{
+	{' ','o',' ','o',' ','o',' ','o'},
+	{'o',' ','o',' ','o',' ','o',' '},
+	{' ','o',' ','o',' ','o',' ','o'},
+	{' ',' ',' ',' ',' ',' ',' ',' '},
+	{' ',' ',' ',' ',' ',' ',' ',' '},
+	{'O',' ','O',' ','O',' ','O',' '},
+	{' ','O',' ','O',' ','O',' ','O'},
+	{'O',' ','O',' ','O',' ','O',' '}
+};
+
+//TEST BOARD
 //char board[8][8]{
-//	{' ','o',' ','o',' ','o',' ','o'},
-//	{'o',' ','o',' ','o',' ','o',' '},
-//	{' ','o',' ','o',' ','o',' ','o'},
+//	{' ',' ',' ','o',' ','o',' ',' '},
+//	{' ',' ','O',' ',' ',' ','O',' '},
+//	{' ',' ',' ','O',' ',' ',' ',' '},
+//	{' ',' ','O',' ','O',' ',' ',' '},
 //	{' ',' ',' ',' ',' ',' ',' ',' '},
 //	{' ',' ',' ',' ',' ',' ',' ',' '},
-//	{'O',' ','O',' ','O',' ','O',' '},
-//	{' ','O',' ','O',' ','O',' ','O'},
+//	{' ',' ',' ',' ',' ',' ',' ',' '},
 //	{'O',' ','O',' ','O',' ','O',' '}
 //};
 
-char board[8][8]{
-	{' ',' ',' ','o',' ','o',' ',' '},
-	{' ',' ','O',' ',' ',' ','O',' '},
-	{' ',' ',' ','O',' ',' ',' ',' '},
-	{' ',' ','O',' ','O',' ',' ',' '},
-	{' ',' ',' ',' ',' ',' ',' ',' '},
-	{' ',' ',' ',' ',' ',' ',' ',' '},
-	{' ',' ',' ',' ',' ',' ',' ',' '},
-	{'O',' ','O',' ','O',' ','O',' '}
-};
 SDL_Rect rect_board[8][8];
 SDL_Rect rect;
 SDL_Rect background;
@@ -42,10 +44,6 @@ void draw_board(SDL_Renderer* render, int width, int height) {
 	int rect_height = height/8;
 
 	SDL_SetRenderDrawColor(render, 0, 255, 255, 255);
-
-
-
-
 
 	for (int row = 0; row < 8; row++) {
 		for (int col = 0; col < 8; col++) {
@@ -105,9 +103,8 @@ void draw_chips(SDL_Renderer* render) {
 }
 
 
+//within moves vector 1 -> forward left 2 -> forward right 3 -> back left 4 -> back right
 
-
-// 0 -> no // 1 -> left // 2 -> right // 3 -> left or right
 std::vector<int> canMove(int x_, int y_, bool is_white_, bool is_king_) {
 	std::vector<int> moves;
 

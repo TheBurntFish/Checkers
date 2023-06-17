@@ -14,7 +14,6 @@ bool chainAttack = false;
 bool flagOnce = true;
 bool is_white, is_king, has_moveable_pieces;
 SDL_Rect piece;
-//bool selected = false;
 int x, y, selected_x, selected_y, movement, attack, forward;
 
 std::vector<int> possibleAttacks;
@@ -84,12 +83,10 @@ void checkForced(int row, int col, bool chainAttack) {
 		}
 	}
 }
-void highlight(int width, int height) {
+void highlight() {
 
 	SDL_SetRenderDrawColor(renderer, 200, 0, 0, 100);
 	for (int index = 0; index < availableX.size(); index++) {
-
-		//rect_board[availableX.at(index)][availableY.at(index)]
 		SDL_RenderFillRect(renderer, &rect_board[availableX.at(index)][availableY.at(index)]);
 	}
 
@@ -97,12 +94,11 @@ void highlight(int width, int height) {
 void render() {
 	SDL_RenderClear(renderer);
 	draw_board(renderer, 720, 720);
-	highlight(720, 720);
+	highlight();
 	draw_chips(renderer);
 	SDL_RenderPresent(renderer);
 }
 void nextTurn() {
-	//selected = false;
 	flagOnce = true;
 	GameState = 0;
 	has_moveable_pieces = false;
@@ -137,8 +133,6 @@ void nextTurn() {
 	}
 
 	for (int index = 0; index < availableX.size(); index++) {
-
-		//rect_board[availableX.at(index)][availableY.at(index)]
 		SDL_RenderFillRect(renderer, &rect_board[availableX.at(index)][availableY.at(index)]);
 	}
 	render();
@@ -179,12 +173,9 @@ void pieceSelect() {
 	}
 	std::cout << std::endl;
 
-	//std::cout << "Selected piece: " << selected_x << " , " << selected_y << std::endl;
+
 }
 
-
-
-////////////////////////uses ram when clicking on nothing repeatedly prob creating ****
 
 int main(int argc, char* argv[]) {
 	SDL_Init(SDL_INIT_VIDEO);
@@ -210,7 +201,7 @@ int main(int argc, char* argv[]) {
 			2 -> Chain attack
 			3 ->
 			4 -> Promote?
-			5 ->
+			5 -> profit
 			*/
 			switch (GameState) {
 			case 0: //Piece not selected yet
@@ -221,10 +212,6 @@ int main(int argc, char* argv[]) {
 				}
 				//detect left click
 				if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON(SDL_BUTTON_LEFT)) {
-
-
-
-
 					GameState = 0;
 					//Get Coordinates for tile clicked on
 					x = (int)ceil(event.button.x / 90);
@@ -273,7 +260,6 @@ int main(int argc, char* argv[]) {
 							}
 						}
 					}
-					
 				}
 
 				break;
@@ -341,7 +327,6 @@ int main(int argc, char* argv[]) {
 						if (mForwardRight) {
 							if (x == selected_x + 1 && y == selected_y + forward) {
 								moveForwardRight(selected_x, selected_y, is_white, is_king);
-
 								nextTurn();
 							}
 							else {
@@ -351,7 +336,6 @@ int main(int argc, char* argv[]) {
 						if (mBackwardLeft) {
 							if (is_king && x == selected_x - 1 && y == selected_y - forward) {
 								moveBackwardLeft(selected_x, selected_y, is_white, is_king);
-
 								nextTurn();
 							}
 							else {
@@ -361,7 +345,6 @@ int main(int argc, char* argv[]) {
 						if (mBackwardRight) {
 							if (is_king && x == selected_x + 1 && y == selected_y - forward) {
 								moveBackwardRight(selected_x, selected_y, is_white, is_king);
-
 								nextTurn();
 							}
 							else {
@@ -380,16 +363,13 @@ int main(int argc, char* argv[]) {
 								std::cout << "chain" << std::endl;
 								pieceSelect();
 								GameState = 2; //Chain attack
-
-
-								//nextTurn();
 							}
 							else {
 								nextTurn();
 							}
 						}
 						else {
-							//GameState = 0;
+							GameState = 0;
 						}
 					}
 					//attack right
@@ -402,16 +382,14 @@ int main(int argc, char* argv[]) {
 								std::cout << "chain" << std::endl;
 
 								pieceSelect();
-								GameState = 2; //Chain attack
-
-								//nextTurn();
+								GameState = 2;
 							}
 							else {
 								nextTurn();
 							}
 						}
 						else {
-							//GameState = 0;
+							GameState = 0;
 						}
 					}
 
@@ -426,15 +404,13 @@ int main(int argc, char* argv[]) {
 
 								pieceSelect();
 								GameState = 2; //Chain attack
-
-								//nextTurn();
 							}
 							else {
 								nextTurn();
 							}
 						}
 						else {
-							//GameState = 0;
+							GameState = 0;
 						}
 					}
 					//attack right
@@ -448,12 +424,13 @@ int main(int argc, char* argv[]) {
 
 								pieceSelect();
 								GameState = 2; //Chain attack
-
-								//nextTurn();
 							}
 							else {
 								nextTurn();
 							}
+						}
+						else {
+							GameState = 0;
 						}
 					}
 				}
@@ -463,11 +440,11 @@ int main(int argc, char* argv[]) {
 				checkForced(selected_y, selected_x, true);
 				if (flagOnce) {
 					flagOnce = false;
-					highlight(width, height);
+					highlight();
 					render();
 				}
 				if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON(SDL_BUTTON_LEFT)) {
-					highlight(width, height);
+					highlight();
 					bool aForwardLeft = false;
 					bool aForwardRight = false;
 					bool aBackwardLeft = false;
@@ -501,15 +478,10 @@ int main(int argc, char* argv[]) {
 								std::cout << "chain" << std::endl;
 								pieceSelect();
 								GameState = 2; //Chain attack
-
-								//nextTurn();
 							}
 							else {
 								nextTurn();
 							}
-						}
-						else {
-							//GameState = 0;
 						}
 					}
 					//attack right
@@ -522,15 +494,10 @@ int main(int argc, char* argv[]) {
 								std::cout << "chain" << std::endl;
 								pieceSelect();
 								GameState = 2; //Chain attack
-
-								//nextTurn();
 							}
 							else {
 								nextTurn();
 							}
-						}
-						else {
-							//GameState = 0;
 						}
 					}
 
@@ -544,15 +511,10 @@ int main(int argc, char* argv[]) {
 								std::cout << "chain" << std::endl;
 								pieceSelect();
 								GameState = 2; //Chain attack
-								
-								//nextTurn();
 							}
 							else {
 								nextTurn();
 							}
-						}
-						else {
-							//GameState = 0;
 						}
 					}
 					//attack back right
@@ -564,23 +526,14 @@ int main(int argc, char* argv[]) {
 								std::cout << "chain" << std::endl;
 								pieceSelect();
 								GameState = 2; //Chain attack
-								
-								//nextTurn();
 							}
 							else {
 								nextTurn();
 							}
 						}
-						else {
-							//GameState = 0;
-						}
 					}
 				}
-
-
 			}
-
-			/////////implement kings dumb ass
 		}
 	}
 
