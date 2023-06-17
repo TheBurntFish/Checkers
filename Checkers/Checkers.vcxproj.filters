@@ -34,17 +34,17 @@
     <Library Include="SDL2_image.lib" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\Programming projects\CheckersWKing.png">
-      <Filter>Source Files</Filter>
+    <Image Include="CheckersB.png">
+      <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\..\Downloads\Programming projects\CheckersW.png">
-      <Filter>Source Files</Filter>
+    <Image Include="CheckersBKing.png">
+      <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\..\Downloads\Programming projects\CheckersBKing.png">
-      <Filter>Source Files</Filter>
+    <Image Include="CheckersW.png">
+      <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\..\Downloads\Programming projects\CheckersB.png">
-      <Filter>Source Files</Filter>
+    <Image Include="CheckersWKing.png">
+      <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
 </Project>

@@ -84,7 +84,16 @@ void checkForced(int row, int col, bool chainAttack) {
 		}
 	}
 }
+void highlight(int width, int height) {
 
+	SDL_SetRenderDrawColor(renderer, 200, 0, 0, 100);
+	for (int index = 0; index < availableX.size(); index++) {
+
+		//rect_board[availableX.at(index)][availableY.at(index)]
+		SDL_RenderFillRect(renderer, &rect_board[availableX.at(index)][availableY.at(index)]);
+	}
+
+}
 
 void nextTurn() {
 	//selected = false;
@@ -122,7 +131,7 @@ void nextTurn() {
 	draw_board(renderer, 720, 720);
 	highlight(720, 720);
 	draw_chips(renderer);
-}
+
 	for (int index = 0; index < availableX.size(); index++) {
 
 		//rect_board[availableX.at(index)][availableY.at(index)]
@@ -130,7 +139,7 @@ void nextTurn() {
 	}
 	SDL_RenderPresent(renderer);
 	draw_chips(renderer);
-}
+
 	for (int index = 0; index < availableX.size(); index++) {
 
 		//rect_board[availableX.at(index)][availableY.at(index)]
@@ -177,16 +186,7 @@ void pieceSelect() {
 
 	//std::cout << "Selected piece: " << selected_x << " , " << selected_y << std::endl;
 }
-void highlight(int width, int height) {
 
-	SDL_SetRenderDrawColor(renderer, 200, 0, 0, 100);
-	for (int index = 0; index < availableX.size(); index++) {
-
-		//rect_board[availableX.at(index)][availableY.at(index)]
-		SDL_RenderFillRect(renderer, &rect_board[availableX.at(index)][availableY.at(index)]);
-	}
-
-}
 
 void render() {
 	SDL_RenderClear(renderer);
@@ -464,10 +464,8 @@ int main(int argc, char* argv[]) {
 							}
 							else {
 								nextTurn();
-					flagOnce = true;
-						}
-						else {
-							//GameState = 0;
+								flagOnce = true;
+							}
 						}
 					}
 				}
